@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
-Route::get('/', function () {
-    return inertia('Home');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return inertia('Home');
+    });
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 });
-Route::get('/register', function () {
-    return inertia('Register/Register');
-});
-Route::get('/login', function () {
-    return inertia('Login/Login');
-});
+
 
