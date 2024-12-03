@@ -12,3 +12,7 @@ Route::get('/login', function () {
     return inertia('Login/Login');
 });
 
+Route::get('/create_survey', function () {
+    return inertia('Survey/CreateSurvey');
+});
+
