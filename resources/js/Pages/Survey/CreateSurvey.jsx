@@ -1,11 +1,9 @@
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 const CreateSurvey = ({ questions }) => {
-    // console.log(questions);
-
-    const delFunc = (id) => {
+    const deleteQuestion = (id) => {
         if (confirm("Are you sure you want to delete?")) {
-            console.log(id);
+            router.delete(`/questions/${id}`);
         }
     };
     return (
@@ -80,7 +78,9 @@ const CreateSurvey = ({ questions }) => {
                                     <button
                                         className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
                                         value={question.id}
-                                        onClick={(e) => delFunc(e.target.value)}
+                                        onClick={(e) =>
+                                            deleteQuestion(e.target.value)
+                                        }
                                     >
                                         Delete
                                     </button>
