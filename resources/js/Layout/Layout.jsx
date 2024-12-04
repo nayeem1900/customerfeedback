@@ -1,7 +1,20 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, auth }) => {
+    const handleLogout = (e) => {
+        e.preventDefault();
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+            },
+        }).then(() => {
+            window.location.href = '/login';
+        });
+    };
+
     return (
         <div>
             {/* Navigation Bar */}
@@ -11,30 +24,44 @@ const Layout = ({ children }) => {
                         {/* Logo */}
                         <div className="flex-shrink-0">
                             <a href="/" className="text-2xl font-bold">
-                                Customer Feedback Dashbord
+                                Customer Feedback App
                             </a>
                         </div>
 
                         {/* Navigation Links */}
                         <div className="hidden md:flex space-x-6">
-                            <Link
-                                href="/"
-                                className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Home
-                            </Link>
-                            <Link
-                                href="/login"
-                                className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                href="/register"
-                                className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                            >
-                                Register
-                            </Link>
+                            {auth.user ? (
+                                // Authenticated User
+                                <>
+                                    <Link
+                                        href="/"
+                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Home
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link
+                                        href="/login"
+                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        href="/register"
+                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Register
+                                    </Link>
+                                </>
+                            )}
                         </div>
 
                         {/* Mobile Menu Button */}
