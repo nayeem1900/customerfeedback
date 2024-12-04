@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use Inertia\Inertia;
 
 class QuestionController extends Controller
 {
@@ -12,7 +13,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return response()->json(Question::all(), 200);
+        $questions = Question::latest()->paginate(10);
+        return Inertia::render('Survey/CreateSurvey', compact('questions'));
     }
 
     /**
@@ -71,11 +73,11 @@ class QuestionController extends Controller
         $question = Question::find($id);
 
         if (!$question) {
-            return response()->json(['error' => 'Question not found'], 404);
+            return redirect()->back()->with('error', 'Question not found');
         }
 
         $question->delete();
 
-        return response()->json(['message' => 'Question deleted successfully'], 200);
+        return redirect()->back()->with('success', 'Question deleted successfully');
     }
 }

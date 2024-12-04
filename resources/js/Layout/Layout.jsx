@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
-import React from 'react';
+import { Link } from "@inertiajs/react";
+import React from "react";
 
 const Layout = ({ children, auth }) => {
     const handleLogout = (e) => {
@@ -24,7 +24,7 @@ const Layout = ({ children, auth }) => {
                         {/* Logo */}
                         <div className="flex-shrink-0">
                             <a href="/" className="text-2xl font-bold">
-                                MyApp
+                                Customer Feedback App
                             </a>
                         </div>
 
@@ -91,7 +91,7 @@ const Layout = ({ children, auth }) => {
             </nav>
 
             {/* Content Area */}
-            <main className="">
+            <main className="mt-4 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {children}
             </main>
         </div>
