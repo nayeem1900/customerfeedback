@@ -1,8 +1,13 @@
 import { Link } from "@inertiajs/react";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
 
-const CreateSurvey = () => {
+const CreateSurvey = ({ questions }) => {
+    // console.log(questions);
+
+    const delFunc = (id) => {
+        if (confirm("Are you sure you want to delete?")) {
+            console.log(id);
+        }
+    };
     return (
         <>
             <div className="my-4">
@@ -19,7 +24,7 @@ const CreateSurvey = () => {
                 </div>
             </div>
             <hr />
-            <div className="flex justify-between items-center mt-4">
+            <div className="flex justify-between items-baseline mt-4">
                 <form className="w-1/3">
                     <div className="flex flex-col gap-4">
                         <div className="sm:col-span-3">
@@ -48,69 +53,40 @@ const CreateSurvey = () => {
                     </div>
                 </form>
 
-                <table class="w-1/2 table-auto border-collapse text-center border rounded">
+                <table className="w-1/2 table-auto border-collapse text-center border rounded">
                     <thead>
-                        <tr class="bg-gray-200">
-                            <th class="px-4 py-2 border-b">#</th>
-                            <th class="px-4 py-2 border-b">Questions</th>
-                            <th class="px-4 py-2 border-b">Action</th>
+                        <tr className="bg-gray-200">
+                            <th className="px-4 py-2 border-b">#</th>
+                            <th className="px-4 py-2 border-b">Questions</th>
+                            <th className="px-4 py-2 border-b">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white">
-                            <td class="px-4 py-2 border-b">1</td>
-                            <td class="px-4 py-2 border-b">John Doe</td>
-                            <td class="px-4 py-2 border-b flex justify-center gap-2">
-                                <Link
-                                    href="#"
-                                    className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Edit
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Delete
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr class="bg-gray-50">
-                            <td class="px-4 py-2 border-b">2</td>
-                            <td class="px-4 py-2 border-b">Jane Smith</td>
-                            <td class="px-4 py-2 border-b flex justify-center gap-2">
-                                <Link
-                                    href="#"
-                                    className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Edit
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Delete
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr class="bg-white">
-                            <td class="px-4 py-2 border-b">3</td>
-                            <td class="px-4 py-2 border-b">Mike Johnson</td>
-                            <td class="px-4 py-2 border-b flex justify-center gap-2">
-                                <Link
-                                    href="#"
-                                    className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Edit
-                                </Link>
-                                <Link
-                                    href="#"
-                                    className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
-                                >
-                                    Delete
-                                </Link>
-                            </td>
-                        </tr>
+                        {questions.data.map((question, index) => (
+                            <tr key={index} className="bg-white">
+                                <td className="px-4 py-2 border-b">
+                                    {index + 1}
+                                </td>
+                                <td className="px-4 py-2 border-b">
+                                    {question.question_text}
+                                </td>
+                                <td className="px-4 py-2 border-b flex justify-center gap-2">
+                                    <Link
+                                        href="#"
+                                        className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <button
+                                        className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
+                                        value={question.id}
+                                        onClick={(e) => delFunc(e.target.value)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use Inertia\Inertia;
 
 class QuestionController extends Controller
 {
@@ -12,7 +13,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return response()->json(Question::all(), 200);
+        $questions = Question::latest()->paginate(10);
+        return Inertia::render('Survey/CreateSurvey', compact('questions'));
     }
 
     /**

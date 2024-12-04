@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,7 +13,4 @@ Route::get('/login', function () {
     return inertia('Login/Login');
 });
 
-Route::get('/create_survey', function () {
-    return inertia('Survey/CreateSurvey');
-});
-
+Route::resource('/questions', QuestionController::class);
