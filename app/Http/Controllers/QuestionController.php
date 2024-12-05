@@ -22,13 +22,13 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validate = $request->validate([
             'question_text' => 'required|string|max:50',
         ]);
 
-        $question = Question::create($request->all());
+        Question::create($validate);
 
-        return response()->json($question, 201);
+        return redirect()->back();
     }
 
     /**
@@ -62,7 +62,7 @@ class QuestionController extends Controller
 
         $question->update($request->all());
 
-        return response()->json($question, 200);
+        return redirect()->back();
     }
 
     /**
