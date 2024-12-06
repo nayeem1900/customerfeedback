@@ -84,7 +84,6 @@ const Register = () => {
                                 id="phone"
                                 value={data.phone}
                                 onChange={(e) => setData('phone', e.target.value)}
-                                placeholder="0123456789"
                                 className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
                             {errors.phone && <div className='text-red-500'>{errors.phone}</div>}

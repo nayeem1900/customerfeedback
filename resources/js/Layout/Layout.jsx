@@ -35,16 +35,37 @@ const Layout = ({ children, auth }) => {
                                 <>
                                     <Link
                                         href="/"
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Home
                                     </Link>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                    <Link
+                                        href="/feedback"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
                                     >
-                                        Logout
-                                    </button>
+                                        Give Feedback
+                                    </Link>
+                                    <div className="dropdown dropdown-end">
+                                        <div tabIndex={0} role="button">
+                                            <div className="w-8 h-8 rounded-full bg-slate-500 text-white font-bold text-sm flex flex-col items-center justify-center">
+                                                {auth.user.name.slice(0, 2).toUpperCase()}
+                                            </div>
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="menu menu-sm dropdown-content bg-base-200 text-gray-600 rounded-box z-[1] mt-3 w-40 p-2 shadow">
+                                            <li><Link href='/profile/view'>Profile</Link></li>
+                                            <li>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="px-3 py-2 rounded-md text-sm font-medium"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+
                                 </>
                             ) : (
                                 <>

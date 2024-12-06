@@ -7,7 +7,13 @@ createInertiaApp({
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true })
     const page = pages[`./Pages/${name}.jsx`];
-    page.default.layout = page.default.layout ||((page) => <Layout {...page.props}>{page}</Layout>) ;
+    console.log('Available Pages:', pages);
+    if (!page) {
+        console.error(`Page not found: ./Pages/${name}.jsx`);
+        throw new Error(`Page not found: ./Pages/${name}.jsx`);
+      }
+
+    page.default.layout = page.default.layout || ((page) => <Layout {...page.props}>{page}</Layout>);
     return page;
   },
   setup({ el, App, props }) {
