@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
@@ -17,11 +18,11 @@ Route::middleware('auth')->group(function () {
         return inertia('Dashboard');
     });
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+        ->name('logout');
 
     Route::get('/profile/view', [ProfileController::class, 'userProfile'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-
+Route::resource('/questions', QuestionController::class);
