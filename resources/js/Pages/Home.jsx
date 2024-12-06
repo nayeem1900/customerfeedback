@@ -1,11 +1,17 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 const Home = () => {
+    const { auth } = usePage().props;
     return (
         <>
             <div className="my-4">
                 <div className="flex justify-between items-center">
-                    <strong>Hi, Admin</strong>
+                    <div className="flex flex-col">
+                        <strong>Hi, {auth.user.name}</strong>
+                        <span className="text-sm text-uppercase">
+                            {auth.user.role}
+                        </span>
+                    </div>
                     <Link
                         href="/questions"
                         className="bg-sky-500 text-white px-4 py-2 rounded shadow-md"
