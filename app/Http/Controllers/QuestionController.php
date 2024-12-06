@@ -32,35 +32,21 @@ class QuestionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $question = Question::find($id);
-
-        if (!$question) {
-            return response()->json(['error' => 'Question not found'], 404);
-        }
-
-        return response()->json($question, 200);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validate = $request->validate([
             'question_text' => 'sometimes|required|string|max:50',
         ]);
 
         $question = Question::find($id);
 
         if (!$question) {
-            return response()->json(['error' => 'Question not found'], 404);
+            return redirect()->back()->with('error', 'Question not found');
         }
 
-        $question->update($request->all());
+        $question->update($validate);
 
         return redirect()->back();
     }
