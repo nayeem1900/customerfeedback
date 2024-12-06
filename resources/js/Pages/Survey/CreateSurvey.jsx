@@ -48,16 +48,13 @@ const CreateSurvey = ({ questions }) => {
     return (
         <>
             <div className="my-4">
-                <div className="flex justify-between items-center">
-                    <strong>Hi, Admin</strong>
-                    <div>
-                        <Link
-                            href="/"
-                            className="bg-sky-500 text-white px-4 py-2 rounded shadow-md"
-                        >
-                            Back
-                        </Link>
-                    </div>
+                <div className="flex justify-end items-center">
+                    <Link
+                        href="/"
+                        className="bg-sky-500 text-white px-4 py-2 rounded shadow-md"
+                    >
+                        Back
+                    </Link>
                 </div>
             </div>
             <hr />
