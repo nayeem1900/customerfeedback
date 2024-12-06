@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link, usePage } from "@inertiajs/react";
 import { FaSignInAlt } from "react-icons/fa";
 import { FaPersonCircleQuestion } from "react-icons/fa6";
 import { LuSend } from "react-icons/lu";
