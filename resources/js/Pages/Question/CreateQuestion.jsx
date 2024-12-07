@@ -1,7 +1,7 @@
 import { Link, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
-const CreateSurvey = ({ questions }) => {
+const CreateQuestion = ({ questions }) => {
     const { data, setData, post, put, processing, errors, reset } = useForm({
         question_text: "",
     });
@@ -106,7 +106,6 @@ const CreateSurvey = ({ questions }) => {
                         </button>
                     </div>
                 </form>
-
                 <table className="w-1/2 table-auto border-collapse text-center border rounded">
                     <thead>
                         <tr className="bg-gray-200">
@@ -152,5 +151,6 @@ const CreateSurvey = ({ questions }) => {
         </>
     );
 };
+s;
 
-export default CreateSurvey;
+export default CreateQuestion;

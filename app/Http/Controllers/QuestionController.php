@@ -14,7 +14,7 @@ class QuestionController extends Controller
     public function index()
     {
         $questions = Question::latest()->paginate(10);
-        return Inertia::render('Survey/CreateSurvey', compact('questions'));
+        return Inertia::render('Question/CreateQuestion', compact('questions'));
     }
 
     /**
