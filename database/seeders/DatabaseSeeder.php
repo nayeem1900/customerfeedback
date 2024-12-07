@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,5 +27,13 @@ class DatabaseSeeder extends Seeder
         //         'question_text' => fake()->sentence(),
         //     ]);
         // }
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'phone' => '1234567890',
+            'role' => 'admin',
+            'password' => Hash::make('password'),
+        ]);
     }
 }
