@@ -23,7 +23,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'question_text' => 'required|string|max:50',
+            'question_text' => 'required|string|max:500',
         ]);
 
         Question::create($validate);
@@ -37,7 +37,7 @@ class QuestionController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'question_text' => 'sometimes|required|string|max:50',
+            'question_text' => 'sometimes|required|string|max:500',
         ]);
 
         $question = Question::find($id);

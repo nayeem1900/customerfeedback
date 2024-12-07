@@ -1,17 +1,18 @@
 import { Link } from "@inertiajs/react";
-import React from "react";
 
 const Layout = ({ children, auth }) => {
     const handleLogout = (e) => {
         e.preventDefault();
-        fetch('/logout', {
-            method: 'POST',
+        fetch("/logout", {
+            method: "POST",
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json',
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+                "Content-Type": "application/json",
             },
         }).then(() => {
-            window.location.href = '/login';
+            window.location.href = "/login";
         });
     };
 
@@ -30,37 +31,116 @@ const Layout = ({ children, auth }) => {
 
                         {/* Navigation Links */}
                         <div className="hidden md:flex space-x-6">
-                            {auth.user ? (
-                                // Authenticated User
+                            {auth.user?.role === "admin" ? (
+                                // Admin User
                                 <>
                                     <Link
-                                        href="/"
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                        href="/dashboard"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Home
                                     </Link>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Logout
-                                    </button>
+                                    <div className="dropdown dropdown-end">
+                                        <div tabIndex={0} role="button">
+                                            <div className="w-8 h-8 rounded-full bg-slate-500 text-white font-bold text-sm flex flex-col items-center justify-center">
+                                                {auth.user.name
+                                                    .slice(0, 2)
+                                                    .toUpperCase()}
+                                            </div>
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="menu menu-sm dropdown-content bg-base-200 text-gray-600 rounded-box z-[1] mt-3 w-40 p-2 shadow"
+                                        >
+                                            <li>
+                                                <Link href="/profile/view">
+                                                    Profile
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="px-3 py-2 rounded-md text-sm font-medium"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </>
                             ) : (
+                                <></>
+                            )}
+
+                            {auth.user?.role === "customer" ? (
                                 <>
                                     <Link
+                                        href="/"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Home
+                                    </Link>
+                                    <Link
+                                        href="/feedback"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Give Feedback
+                                    </Link>
+                                    <div className="dropdown dropdown-end">
+                                        <div tabIndex={0} role="button">
+                                            <div className="w-8 h-8 rounded-full bg-slate-500 text-white font-bold text-sm flex flex-col items-center justify-center">
+                                                {auth.user?.name
+                                                    .slice(0, 2)
+                                                    .toUpperCase()}
+                                            </div>
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="menu menu-sm dropdown-content bg-base-200 text-gray-600 rounded-box z-[1] mt-3 w-40 p-2 shadow"
+                                        >
+                                            <li>
+                                                <Link href="/profile/view">
+                                                    Profile
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="px-3 py-2 rounded-md text-sm font-medium"
+                                                >
+                                                    Logout
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </>
+                            ) : (
+                                <></>
+                            )}
+
+                            {!auth.user ? (
+                                <>
+                                    <Link
+                                        href="/"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Home
+                                    </Link>
+                                    <Link
                                         href="/login"
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Login
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="hover:bg-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Register
                                     </Link>
                                 </>
+                            ) : (
+                                <></>
                             )}
                         </div>
 
@@ -91,7 +171,7 @@ const Layout = ({ children, auth }) => {
             </nav>
 
             {/* Content Area */}
-            <main className="mt-4 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <main className="mt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {children}
             </main>
         </div>
