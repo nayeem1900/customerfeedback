@@ -151,6 +151,5 @@ const CreateQuestion = ({ questions }) => {
         </>
     );
 };
-s;
 
 export default CreateQuestion;
