@@ -1,6 +1,9 @@
 import { Link } from "@inertiajs/react";
+import { usePage } from '@inertiajs/react'
+
 
 const Layout = ({ children, auth }) => {
+    const { url, component } = usePage()
     const handleLogout = (e) => {
         e.preventDefault();
         fetch("/logout", {
@@ -36,10 +39,26 @@ const Layout = ({ children, auth }) => {
                                 <>
                                     <Link
                                         href="/dashboard"
-                                        className="hover:bg-sky-900 px-3 py-2 rounded-md text-sm font-medium"
+                                        className={`px-3 py-2 rounded-md text-sm font-medium ${url === '/dashboard' ? 'bg-sky-900 text-white' : 'hover:bg-sky-900 text-gray-300'
+                                            }`}
                                     >
-                                        Home
+                                    Dashboard
                                     </Link>
+                                    <Link
+                                        href="/feedback/details"
+                                        className={`px-3 py-2 rounded-md text-sm font-medium ${url === '/feedback/details' ? 'bg-sky-900 text-white' : 'hover:bg-sky-900 text-gray-300'
+                                            }`}
+                                    >
+                                    Feedback Details
+                                    </Link>
+                                    <Link
+                                        href="/feedback/result"
+                                        className={`px-3 py-2 rounded-md text-sm font-medium ${url === '/feedback/result' ? 'bg-sky-900 text-white' : 'hover:bg-sky-900 text-gray-300'
+                                            }`}
+                                    >
+                                    Feedback Result
+                                    </Link>
+
                                     <div className="dropdown dropdown-end">
                                         <div tabIndex={0} role="button">
                                             <div className="w-8 h-8 rounded-full bg-slate-500 text-white font-bold text-sm flex flex-col items-center justify-center">
