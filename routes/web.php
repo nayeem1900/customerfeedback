@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminFeedbackController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +28,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/questions', QuestionController::class);
+Route::get('/feedback/details', [AdminFeedbackController::class, 'feedbackDetails']);
+Route::get('/feedback/result', [AdminFeedbackController::class, 'feedbackResult']);
+
