@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // for ($i = 0; $i < 50; $i++) {
-        //     Question::create([
-        //         'question_text' => fake()->sentence(),
-        //     ]);
-        // }
+        for ($i = 0; $i < 50; $i++) {
+            Question::create([
+                'question_text' => fake()->sentence(),
+            ]);
+        }
 
         User::create([
             'name' => 'Admin',
@@ -35,5 +35,15 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'password' => Hash::make('password'),
         ]);
+
+        for ($i = 0; $i < 70; $i++) {
+            User::create([
+                'name' => fake()->name(),
+                'email' => fake()->email(),
+                'phone' => fake()->phoneNumber(),
+                'role' => 'customer',
+                'password' => Hash::make('password'),
+            ]);
+        }
     }
 }
