@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminFeedbackController;
-use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +16,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/feedback', function () {
         return inertia('Feedback/Feedback');
     });
-    Route::get('/dashboard', function () {
-        return inertia('Dashboard/Dashboard');
-    });
+
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
@@ -30,4 +29,3 @@ Route::middleware('auth')->group(function () {
 Route::resource('/questions', QuestionController::class);
 Route::get('/feedback/details', [AdminFeedbackController::class, 'feedbackDetails']);
 Route::get('/feedback/result', [AdminFeedbackController::class, 'feedbackResult']);
-
