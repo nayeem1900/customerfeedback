@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+        Inertia::share([
+            'success' => function () {
+                return session('success');
+            },
+        ]);
     }
 }

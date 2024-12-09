@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminFeedbackController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
@@ -13,9 +14,9 @@ Route::get('/', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/feedback', function () {
-        return inertia('Feedback/Feedback');
-    });
+
+    Route::get('/feedback', [FeedbackController::class, 'index']);
+    Route::post('/feedback', [FeedbackController::class, 'store']);
     Route::get('/dashboard', function () {
         return inertia('Dashboard/Dashboard');
     });

@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('question_id')->constrained();
+            $table->foreignId('customer_id')->constrained('users');
+            $table->string('answer');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
