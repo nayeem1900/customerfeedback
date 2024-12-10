@@ -1,6 +1,10 @@
 import { Link, usePage } from "@inertiajs/react";
 
-const Dashboard = ({ totalCustomers, totalQuestions }) => {
+const Dashboard = ({
+    totalCustomers,
+    totalQuestions,
+    totalCustomerFromFeedback,
+}) => {
     const { auth } = usePage().props;
     if (auth.user.role !== "admin") {
         window.location.href = "/";
@@ -30,11 +34,15 @@ const Dashboard = ({ totalCustomers, totalQuestions }) => {
                     </div>
                     <div className="w-1/5 bg-sky-200 text-center border p-4 rounded shadow-md">
                         <h3>Response Received</h3>
-                        <h2 className="text-2xl mt-4">0</h2>
+                        <h2 className="text-2xl mt-4">
+                            {totalCustomerFromFeedback.length}
+                        </h2>
                     </div>
                     <div className="w-1/5 bg-sky-200 text-center border p-4 rounded shadow-md">
                         <h3>Response Pending</h3>
-                        <h2 className="text-2xl mt-4">0</h2>
+                        <h2 className="text-2xl mt-4">
+                            {totalCustomers - totalCustomerFromFeedback.length}
+                        </h2>
                     </div>
                     <div className="w-1/5 bg-sky-200 text-center border p-4 rounded shadow-md">
                         <h3>Total Customer</h3>

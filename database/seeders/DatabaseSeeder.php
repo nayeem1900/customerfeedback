@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             Question::create([
                 'question_text' => fake()->sentence(),
             ]);
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        for ($i = 0; $i < 70; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             User::create([
                 'name' => fake()->name(),
                 'email' => fake()->email(),

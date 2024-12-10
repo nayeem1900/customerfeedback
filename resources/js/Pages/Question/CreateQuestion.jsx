@@ -113,49 +113,71 @@ const CreateQuestion = ({ questions, auth }) => {
                             </button>
                         </div>
                     </form>
-                    <table className="w-1/2 table-auto border-collapse text-center border rounded">
-                        <thead>
-                            <tr className="bg-gray-200">
-                                <th className="px-4 py-2 border-b">#</th>
-                                <th className="px-4 py-2 border-b">
-                                    Questions
-                                </th>
-                                <th className="px-4 py-2 border-b">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {questions.data.map((question, index) => (
-                                <tr key={index} className="bg-white">
-                                    <td className="px-4 py-2 border-b">
-                                        {index + 1}
-                                    </td>
-                                    <td className="px-4 py-2 border-b">
-                                        {question.question_text}
-                                    </td>
-                                    <td className="px-4 py-2 border-b flex justify-center gap-2">
-                                        <button
-                                            value={question.id}
-                                            onClick={(e) =>
-                                                editFunc(e.target.value)
-                                            }
-                                            className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
-                                            value={question.id}
-                                            onClick={(e) =>
-                                                deleteQuestion(e.target.value)
-                                            }
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                    <div className="w-1/2">
+                        <table className="w-full table-auto border-collapse text-center border rounded">
+                            <thead>
+                                <tr className="bg-gray-200">
+                                    <th className="px-4 py-2 border-b">#</th>
+                                    <th className="px-4 py-2 border-b">
+                                        Questions
+                                    </th>
+                                    <th className="px-4 py-2 border-b">
+                                        Action
+                                    </th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                {questions.data.map((question, index) => (
+                                    <tr key={index} className="bg-white">
+                                        <td className="px-4 py-2 border-b">
+                                            {index + 1}
+                                        </td>
+                                        <td className="px-4 py-2 border-b">
+                                            {question.question_text}
+                                        </td>
+                                        <td className="px-4 py-2 border-b flex justify-center gap-2">
+                                            <button
+                                                value={question.id}
+                                                onClick={(e) =>
+                                                    editFunc(e.target.value)
+                                                }
+                                                className="bg-green-500 text-white px-2 py-1 rounded shadow-md"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className="bg-red-500 text-white px-2 py-1 rounded shadow-md"
+                                                value={question.id}
+                                                onClick={(e) =>
+                                                    deleteQuestion(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="flex justify-center items-center mt-4 space-x-2">
+                            {questions.links.map((link, index) => (
+                                <Link
+                                    key={index}
+                                    href={link.url}
+                                    className={`px-3 py-1 border rounded ${
+                                        link.active
+                                            ? "bg-sky-500 text-white"
+                                            : "bg-white"
+                                    }`}
+                                    dangerouslySetInnerHTML={{
+                                        __html: link.label,
+                                    }}
+                                />
                             ))}
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
             </>
         );
