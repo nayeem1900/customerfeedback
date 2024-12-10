@@ -1,210 +1,161 @@
-import React, { useState } from "react";
-import { usePage } from "@inertiajs/react";
-const Feedback = () => {
+import { useState, useEffect } from "react";
+import { router, usePage } from "@inertiajs/react";
+
+const Feedback = ({ success, error, questions }) => {
     const { auth } = usePage().props;
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        satisfaction: "",
-        easeOfUse: "",
-        performance: "",
-        usabilityIssues: "",
-        missingFeatures: "",
-        performanceIssues: "",
+        id: auth.user.id || "",
+        name: auth.user.name || "",
+        email: auth.user.email || "",
+        phone: auth.user.phone || "",
+        feedback: {},
     });
+    useEffect(() => {
+        const feedbackState = {};
+        questions.forEach((question) => {
+            feedbackState[question.id] = ""; // Empty initially
+        });
+        setFormData((prev) => ({ ...prev, feedback: feedbackState }));
+    }, [questions]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        if (Object.keys(formData.feedback).includes(name)) {
+            setFormData((prev) => ({
+                ...prev,
+                feedback: { ...prev.feedback, [name]: value },
+            }));
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Submitted Data: ", formData);
-        // Add your form submission logic here
+        router.post("/feedback", formData);
     };
 
-    if (auth.user.role !== "customer") {
-        window.location.href = "/dashboard";
-    } else {
-        return (
-            <div className="min-h-[80vh] bg-gray-100 p-5 flex items-center justify-center">
-                <div className="bg-sky-100 p-6 rounded-lg shadow-lg w-full max-w-7xl">
-                    {/* Customer Details */}
-                    <h1 className="text-2xl bg-sky-200 p-1 font-bold text-sky-800 mb-6 uppercase text-center">
-                        Customer Feedback Form
-                    </h1>
-                    <form onSubmit={handleSubmit} className="mt-12">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-xl">
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-2">
-                                    Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter your name"
-                                    value={auth.user.name}
-                                    onChange={handleChange}
-                                    className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-2">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Enter your email"
-                                    value={auth.user.email}
-                                    onChange={handleChange}
-                                    className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-700 font-medium mb-2">
-                                    Phone
-                                </label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    placeholder="Enter your phone number"
-                                    value={auth.user.phone}
-                                    onChange={handleChange}
-                                    className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
-                                    required
-                                />
-                            </div>
+    return (
+        <div className="min-h-[80vh] bg-gray-100 p-5 flex items-center justify-center">
+            <div className="bg-sky-100 p-6 rounded-lg shadow-lg w-full max-w-7xl">
+                {success && (
+                    <div className="mb-4 p-4 text-green-800 bg-green-200 rounded-lg">
+                        {success}
+                    </div>
+                )}
+                {error && (
+                    <div className="mb-4 p-4 text-red-800 bg-red-200 rounded-lg">
+                        {error}
+                    </div>
+                )}
+                {/* Customer Details */}
+                <h1 className="text-2xl bg-sky-200 p-1 font-bold text-sky-800 mb-6 uppercase text-center">
+                    Customer Feedback Form
+                </h1>
+                <form onSubmit={handleSubmit} className="mt-12">
+                    <input
+                        type="hidden"
+                        name="id"
+                        value={auth?.user?.id}
+                        onChange={handleChange}
+                        className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
+                    />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 text-xl">
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2">
+                                Name
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Enter your name"
+                                value={auth.user.name}
+                                onChange={handleChange}
+                                className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
+                            />
                         </div>
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2">
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                value={auth.user.email}
+                                onChange={handleChange}
+                                className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-gray-700 font-medium mb-2">
+                                Phone
+                            </label>
+                            <input
+                                type="text"
+                                name="phone"
+                                placeholder="Enter your phone number"
+                                value={auth.user.phone}
+                                onChange={handleChange}
+                                className="w-full border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
+                            />
+                        </div>
+                    </div>
 
-                        {/* Feedback Questions */}
-                        <h2 className="text-2xl font-bold text-sky-900 my-5 mb-4">
-                            Please rate the following aspects:
-                        </h2>
-                        <table className="table-auto w-full mb-6 text-lg">
-                            <thead>
-                                <tr className="text-left">
-                                    <th className="py-2"></th>
-                                    <th className="py-2 px-2">Very Good</th>
-                                    <th className="py-2 px-2">Good</th>
-                                    <th className="py-2 px-2">Fair</th>
-                                    <th className="py-2 px-2">Poor</th>
-                                    <th className="py-2 px-2">Very Poor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {[
-                                    {
-                                        name: "satisfaction",
-                                        label: "Rate your overall satisfaction with the product",
-                                    },
-                                    {
-                                        name: "easeOfUse",
-                                        label: "How easy was it to use the product?",
-                                    },
-                                    {
-                                        name: "performance",
-                                        label: "How would you rate the performance?",
-                                    },
-                                ].map((question) => (
-                                    <tr key={question.name}>
-                                        <td className="py-2 px-2 font-bold">
-                                            {question.label}
+                    {/* Feedback Questions */}
+                    <h2 className="text-2xl font-bold text-sky-900 my-5 mb-4">
+                        Please rate the following aspects:
+                    </h2>
+                    <table className="table-auto w-full mb-6 text-lg">
+                        <thead>
+                            <tr className="text-left">
+                                <th className="py-2"></th>
+                                <th className="py-2 px-2">Very Good</th>
+                                <th className="py-2 px-2">Good</th>
+                                <th className="py-2 px-2">Fair</th>
+                                <th className="py-2 px-2">Poor</th>
+                                <th className="py-2 px-2">Very Poor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {questions.map((question) => (
+                                <tr key={question.id}>
+                                    <td className="py-2 px-2 font-bold">
+                                        {question.question_text}
+                                    </td>
+                                    {[
+                                        "Very Good",
+                                        "Good",
+                                        "Fair",
+                                        "Poor",
+                                        "Very Poor",
+                                    ].map((option, index) => (
+                                        <td key={index} className="text-center">
+                                            <input
+                                                type="radio"
+                                                name={question.id}
+                                                value={option}
+                                                onChange={handleChange}
+                                                required
+                                            />
                                         </td>
-                                        {[
-                                            "Very Good",
-                                            "Good",
-                                            "Fair",
-                                            "Poor",
-                                            "Very Poor",
-                                        ].map((option, index) => (
-                                            <td
-                                                key={index}
-                                                className="text-center"
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name={question.name}
-                                                    value={option}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-
-                        {/* Yes/No Questions */}
-                        <div className="space-y-6 p-2">
-                            {[
-                                {
-                                    name: "usabilityIssues",
-                                    label: "Did you encounter any usability issues?",
-                                },
-                                {
-                                    name: "missingFeatures",
-                                    label: "Were there any missing features that you expected?",
-                                },
-                                {
-                                    name: "performanceIssues",
-                                    label: "Did you experience any performance issues?",
-                                },
-                            ].map((question) => (
-                                <div
-                                    key={question.name}
-                                    className="w-7/12 flex items-center justify-between text-lg"
-                                >
-                                    <label className="block font-bold">
-                                        {question.label}
-                                    </label>
-                                    <div className="flex items-center space-x-4">
-                                        <label className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                name={question.name}
-                                                value="Yes"
-                                                onChange={handleChange}
-                                                required
-                                                className="mr-2"
-                                            />
-                                            Yes
-                                        </label>
-                                        <label className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                name={question.name}
-                                                value="No"
-                                                onChange={handleChange}
-                                                required
-                                                className="mr-2"
-                                            />
-                                            No
-                                        </label>
-                                    </div>
-                                </div>
+                                    ))}
+                                </tr>
                             ))}
-                        </div>
-
-                        {/* Submit Button */}
-                        <div className="mt-8 text-center">
-                            <button
-                                type="submit"
-                                className="bg-sky-950 text-white py-2 px-6 rounded-lg font-medium hover:bg-sky-900 transition"
-                            >
-                                Submit Feedback
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                        </tbody>
+                    </table>
+                    {/* Submit Button */}
+                    <div className="mt-8 text-center">
+                        <button
+                            type="submit"
+                            className="bg-sky-950 text-white py-2 px-6 rounded-lg font-medium hover:bg-sky-900 transition"
+                        >
+                            Submit Feedback
+                        </button>
+                    </div>
+                </form>
             </div>
-        );
-    }
+        </div>
+    );
 };
-
 export default Feedback;

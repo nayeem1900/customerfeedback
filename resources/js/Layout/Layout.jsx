@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
 import { usePage } from '@inertiajs/react'
+import { ToastContainer } from "react-toastify";
 
 
 const Layout = ({ children, auth }) => {
@@ -193,6 +194,7 @@ const Layout = ({ children, auth }) => {
             <main className="mt-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {children}
             </main>
+            <ToastContainer />
         </div>
     );
 };
